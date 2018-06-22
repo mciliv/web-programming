@@ -1,0 +1,199 @@
+<!-- ASSIGNMENT #4 COMP20 S16 -->
+<!Doctype html>
+<html>
+<head>
+<title>Security Analysis</title>
+<link rel="stylesheet" type="text/css" href="security.css">
+</head>
+
+<body>
+	<header>
+		<h1>Security Analysis of Alex Golin's Landmarks Assignment</h1>
+		<p>By: Morgan Ciliv</p>
+		<hr>
+
+		<article>
+			<h2>Introduction</h2>
+			<p>I was hired to hack into Alex Golin's website in order to
+			determine what vulnerabilities existed in his code. I did three
+			different hacks: cross-site scripting (XSS),
+			MongoDB database injection, and server overloading.
+			Alex's code is vulnerable to these three hacks. None of the tests
+			required looking at Alex's code. The product succesfully
+			tested his code, and I show screenshots and describe the
+			vulnerabilites below. I also describe my recommendations
+			for fixing code to prevent or not allow such hacks.</p>
+			<hr>
+
+			<h2>Methodology</h2>
+			<p>To hack the web application, I used Postman to send data that
+			hacked the site. Moreover, Postman allowed me to do cross-site
+			(XSS) and a MongoDB database injection. Postman is a REST client
+			and allows us to set APIs and test server code. A REST client stands
+			for representational state transfer. A rest client helps develop
+			networked applications. For server overloading, I used cURL which
+			allows transfer of data using various protocols just like Postman.
+			However, cURL is done from the command line. To do the overloading,
+			I created a free account on Digital Ocean so that I would have
+			access to much faster network speeds and a very fast cpu
+			in order to overload the database. Digital Ocean is a cloud
+			infrastructure which works like Heroku. However, since Digital Ocean
+			allows root access, I was able to access the servers terminal and
+			run the cURL script in an infinite loop. Obviously, I used terminal
+			as it's what allowed me to write the script. The infinite loop
+			was implemented by just doing a "while (true) {//curl code}" loop.
+			</p>
+			<hr>
+
+			<h2>Abstract of Findings</h2>
+			<h4>A hacker can send code that's put into the website</h4>
+			<p>When the user inputs data that inputs data to a website, the
+			information is usually sent to the server. However, Alex's server does not
+			check the user's input, which is always a precaution a web
+			application should take. Particularly, the site should check
+			the user input because the user can enter whatever code they want into the website. Therefore, the user can literally
+			control the website or add whatever they want such as images, videos, and text.
+			Moreover, it's not just functionality but also content that
+			can be entered to the webpage. This can be a huge disturbance
+			to the user experience.</p>
+			<h4>A hacker can obtain database information</h4>
+			<p>A database injection allows the user to access whatever they
+			want from the database. This database should really only
+			be able to return data about the current user; however, the database
+			can end up returning all information. With more important web
+			applications this could mean that a user/hacker could see who is
+			signed up for a website or what they're username and password are.
+			Databases often store private data, so this
+			vulnerability can be detrimental to the sites privacy.</p>
+			<h4>A hacker can make the website's server stop working</h4>
+			<p>If there is a server overloading vulnerability in a website,
+			then that website's server could be filled so that no more
+			data could be entered. This would cause the users
+			lots of trouble and would make the site inneffective. Alex's
+			site has a server overloading vulerability as it doesn't limit
+			how many times a user can enter data into the server.</p>
+			<hr>
+
+			<h2>Issues Found</h2>
+
+			<h3>1. Cross-Site Scripting (XSS)</h3>
+			<h5>Section from Alex's code that is associated with the vulnerability:</h5>
+			<xmp>
+app.post('/sendLocation', function(request, response) {
+	var errmsg = "Whoops, something is wrong with your data!";
+	var login = request.body.login;
+	var lat = request.body.lat;
+	var lng = request.body.lng;
+
+	var peopleJSON;
+
+	if (login == null || lat == null || lng == null) {
+		response.send(errmsg);
+		return;
+	};
+
+	...
+}
+			</xmp>
+
+			<h5>Severity of this issue:</h5>
+			HIGH 
+			<p>The severity is high because with cross-site scripting, a hacker
+			can manipulate the website to do what they want. For example, the
+			hacker can redirect users to other sites, cause the page to go
+			into an infinite loop, crash the website, put images and videos
+			into the page, etc.</p>
+			<h5>Description of Problem</h5>
+			<p>I found this problem by doing a post request from Postman. I In the login parameter for sendLocation, I putting annoying functionality
+			inside of script tages. This ends up repeatedly displaying alert
+			boxes that say "hacked". The user must press close multiple time in order to continue.
+			
+			<h5>Proof of vulernability with screen shot</h5>
+			<p>
+			<tr><td><img src="img/while.png" alt="alert box on page"
+			title="Example of XSS" /></td></tr>
+			</p>
+			<h5>Resolution</h5>
+			In order to fix this problem, the implementer should escape the the set of common characters that are dangerous for user input before it enters the database. The input can be filtered through by using...
+			<xmp>str.match(/[\d\w\s\]|[\~\!\@\#\$\^\*\-\_\+\;]*/g).join('');</xmp>
+			<p>Futhermore, an "if" statement could be used to check the user input before it is put into the database. If there are unwanted characters, the implementer could send back a message to the user signifying that they have entered invalid user input.
+			<h5>Conclusion</h5>
+			Never trust user input because they could do malicious things
+			to your website just like the example shown above.
+
+
+
+			<h3>2. MongoDB Database Injection</h3>
+			<h5>Section from Alex's code that is associated with the vulnerability:</h5>
+			<xmp>
+app.get('/checkins.json', function(request, response) {
+	var query = request.query.login;
+
+	console.log(query);
+
+	db.collection('checkins').find({"login" : query}).toArray(function(err, documents) {
+		checkinsJSON = JSON.stringify(documents);
+		response.send(checkinsJSON);
+	});
+});
+			</xmp>
+
+			<h5>Severity of this issue:</h5>
+			HIGH 
+			<p>Injection is #1 on the OWASP top 10 which represents the the top 10 security issues today. The severity is high particularly for Alex's website because a hacker can inject a certain string into the database such that it returns all of the database's information. Alex's database returns all of the users information. If there were passwords for the users, the database would display those, which is a huge security conecern. </p>
+			<h5>Description of Problem</h5>
+			<p>I discovered this problem by entering the following url into Postman:
+			<xmp>http://radiant-fortress-48873.herokuapp.com/checkins.json?login[$ne]=
+			</xmp>
+
+			This query asks to return the data of everything that is not equal to the empty string, which often is everything. Postman indeed did return all of the data. This specific example shows specifically the data that came from the server overflow hack. (Note it's returning all of the data that was entered from hack #3 below). This is how a person's private information could be uncovered to another..
+			
+			<h5>Proof of vulernability with screen shot</h5>
+			<p><tr><td><img src="img/injection.png" alt="alert box on page"
+			title="Example of XSS" /></td></tr></p>
+			<p>...</p>
+			<h5>Resolution</h5>
+			<p>To fix this problem a new object can be created so that the fields that are okay to be returned are returned. For example, we could created a new person object that excludes the passwords, so that if a person does request data, they are unable to see private information.</p>
+			<p>Also, just like cross-site scripting, we could escape characters so that they canot do things such as enter "$ne" which alowed them to see everyone. An "if" statement could be used to check the user input before it is put into the database. If there are unwanted characters, the implementer could send back a message to the user signifying that they have entered invalid user input.</p>
+			<h5>Conclusion</h5>
+			Again, never trust user input because they could do malicious things such as get more data than they are supposed to from
+			your database. This vulnerability greatly affects the overall privacy of the site.
+
+			<h3>3. Server Overloading</h3>
+			<p>Section from Alex's code that is associated with the vulnerability:</p>
+						<xmp>
+var toInsert = {
+	"login": login, 
+	"lat": Number(lat),
+	"lng": Number(lng),
+	"created_at": Date(),
+};
+
+db.collection('checkins', function(error, coll) {
+	var id = coll.insert(toInsert, function(error, saved) {
+			</xmp>
+
+			<h5>Severity of this issue:</h5>
+			MEDIUM
+			<p>Server Overloading is dangerous because it can cause your website to stop working. However, it does not affect the privacy of the users.</p>
+			<h5>Description of Problem</h5>
+			<p>
+			 As you can see above, the code doesn't check how many times the user is entering data. There should be a limit to how much a user can input because this allows them to fill up the database and end up making the server unresponsive because there are so many querires per second. There is always some limit to how much a server could handle at once. This could cause other users to not be able to use access or enter data into the server.
+			 </p>
+			
+			<h5>Proof of vulernability with screen shot</h5>
+			<p><tr><td><img id="overflow" src="img/overflow.png" alt="alert box on page" title="Example of XSS" /></td></tr></p>
+			<p>...</p>
+			<h5>Resolution</h5>
+			<p>To fix this problem, the server could be configured with rate limiting. This would make sure that a single user couldn't send more than a certain amount of data to the server at any given time. Instead of Heroku, Amazon Web Services could be used for example, so that rate limiting could be enabled. This configuration could be used to keep track of the number of requests that the user is using so that the implementer can actually compare that amount to desirable limit. If they go over the bound, the user could send back a 403 error. This would work by getting the user's IP address in order to identify them specifically.
+			</p>
+
+			<h5>Conclusion</h5>
+			Server overloading vulnerabilities could cause delays and many problems for the user experience and make the database unusable. Alex's code should be fixed by configuring rate limiting as described above. In the future, consider using tools that would allow you more control and functionality to prevent such attacks. Security should always be a priority.
+		</article>	
+	</header>
+	<hr>
+	<h2>Overall Conclusion</h2>
+	<p>Fixing these three problems with the resolutions shown above would greatly improve the security of the website. However, more security work beyond three problems would need to be done because there are potentially other vulnerabilites.</p>
+</body>
+</html>

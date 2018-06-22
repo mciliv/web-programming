@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>My Old Kentucky Home</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<h1 id="title">My Old Kentucky Home</h1>
+
+<video src="https://www.cs.tufts.edu/comp/20/my_old_kentucky_home.mp4" id="music_video" controls></video>
+<div id="lyrics"></div>
+
+<script>
+	// Complete this section and create a CSS file named style.css
+var video = document.getElementById("music_video");
+var caption = document.getElementById("lyrics");
+
+video.addEventListener("timeupdate", function() {
+	console.log("My Old Kentucky Home!");
+
+	if (video.currentTime < 4) {
+		caption.innerHTML = '<p> <img src="MHorse.jpg" alt="Horse" /> </p>';
+	}
+	else if (video.currentTime >= 4 && video.currentTime < 8) {
+		caption.innerHTML = '<p> <img src="MHorses.jpg" alt="Horses" /> </p>';
+	}
+	else if (video.currentTime >= 8 && video.currentTime < 14) {
+		caption.innerHTML = "<h3> The sun shines bright in "+
+		"My Old Kentucky Home,</h3> ";
+	}
+	else if (video.currentTime >= 14 && video.currentTime < 21) {
+		caption.innerHTML = "<h3> 'Tis summer, the people are gay; </h3>";
+	}
+	else if (video.currentTime >= 21 && video.currentTime < 28) {
+		caption.innerHTML = "<h3> The corn-top's ripe and "+
+		"the meadow's in the bloom </h3>";
+	}
+	else if (video.currentTime >= 28 && video.currentTime < 35) {
+		caption.innerHTML = "<h3> While the birds make music "+
+		"all the day. </h3>";
+	}
+	else if (video.currentTime >= 35 && video.currentTime < 42) {
+		caption.innerHTML = "<h3> The young folks roll on the little "+
+		"cabin floor, </h3>";
+	}
+	else if (video.currentTime >= 42 && video.currentTime < 49) {
+		caption.innerHTML = "<h3> All merry, all happy and bright; </h3>";
+	}
+	else if (video.currentTime >= 49 && video.currentTime < 55) {
+		caption.innerHTML = "<h3> By 'n' by hard times comes a "+
+		"knocking at the door, </h3>";
+	}
+	else if (video.currentTime >= 55 && video.currentTime < 63) {
+		caption.innerHTML = "<h3> Then My Old Kentucky Home, good night! </h3>";
+	}
+	else if (video.currentTime >= 55 && video.currentTime < 63) {
+		caption.innerHTML = "<h3> Then My Old Kentucky Home, good night! </h3>";
+	}
+	else if (video.currentTime >= 63 && video.currentTime < 93) {
+		caption.innerHTML =
+		"<h3><p>Weep no more my lady </p>"+
+		"<p>Oh weep no more today; </p>"+
+		"<p>We will sing one song </p>"+
+		"<p>For My Old Kentucky Home </p>"+
+		"<p>For My Old Kentucky Home, far away </p></h3>";
+	}
+	else {
+		caption.innerHTML = "";
+	}
+
+}, false);
+
+</script>
+</body>
+</html>	

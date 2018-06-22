@@ -1,0 +1,32 @@
+/*  style.css
+	Morgan Ciliv
+	Old Kentucky Home Video ...
+*/
+
+body {
+	background-color: black;
+}
+
+h1 {
+	color: blue;
+	font-family: "Times New Roman", Times, serif;
+	font-style: italic;
+	font-weight: 900;
+	letter-spacing: 12px;
+
+	margin: auto;
+	width: 60%;
+	border: 9px solid #72AD21;
+	padding: 11px;
+}
+
+h3 {
+	color: orange;
+	font-family: Helvetica, Arial;
+	background-color: #333333;
+}
+
+p {
+	color: #AD00FF;
+	font-family: Arial, "Helvetica Neue";
+}

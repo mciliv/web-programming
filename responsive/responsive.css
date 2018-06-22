@@ -1,0 +1,83 @@
+/* Picture: 640 x 480 */
+/* 5 x 2 set of pictures */
+/* 640/5 = 128 480/2 = 240 */
+
+div.software {
+	width: 128px;
+	height: 240px;
+	background:url(software.png) -512px -240px;
+}
+
+
+@media screen and (min-width: 401px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png) -384px -240px;
+	}
+}
+
+@media screen and (min-width: 501px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png) -256px -240px;
+	}
+}
+
+
+@media screen and (min-width: 601px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png) -128px -240px;
+	}
+}
+
+@media screen and (min-width: 701px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png) 0 -240px;
+	}
+}
+
+@media screen and (min-width: 801px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png) -512px 0;
+	}
+}
+
+@media screen and (min-width: 901px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png) -384px 0;
+	}
+}
+
+@media screen and (min-width: 1001px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png) -256px 0;
+	}
+}
+
+@media screen and (min-width: 1101px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png) -128px 0;
+	}
+}
+
+@media screen and (min-width: 1201px) {
+	div.software {
+		width: 128px;
+		height: 240px;
+		background:url(software.png);
+	}
+}

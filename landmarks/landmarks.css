@@ -1,0 +1,17 @@
+/* landmarks.css */
+/* styles index.html of the landmarks assignment */
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#map {
+	height: 100%;
+}
+
+div {
+	color: blue;
+	font-weight: bold;
+}
